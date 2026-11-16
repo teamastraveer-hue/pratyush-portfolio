@@ -77,7 +77,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
   },
   {
     id: 'instagram-follow',
-    title: 'INSTAGRAM FOLLOW',
+    title: 'SOCIAL MEDIA PROMOTION',
     category: 'Social Media Design',
     filterGroups: ['Social Media'],
     imageUrl: '/assets/aistudio/INSTAGRAM_FOLLOW_d8a43712.jpg',

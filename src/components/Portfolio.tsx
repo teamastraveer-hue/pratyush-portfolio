@@ -130,76 +130,105 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Aspect-Preserving Sequential Gallery Grid */}
+        {/* Horizontal Editorial Project Rows */}
         <div
           key={activeFilter}
-          className="mt-12 grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-10 divide-y divide-[#EAEAF2] border-t border-[#EAEAF2] dark:divide-[#1E1E2D] dark:border-[#1E1E2D]"
         >
           {filteredProjects.map((project, index) => (
             <motion.article
               key={project.id}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
               transition={{
-                duration: 0.35,
-                delay: index * 0.035,
+                duration: 0.45,
                 ease: [0.16, 1, 0.3, 1],
               }}
+              className="py-12 sm:py-16 lg:py-20"
             >
-              <button
-                type="button"
-                onClick={() => setSelectedIndex(index)}
-                aria-label={`View ${project.title} in full preview`}
-                className="group block w-full overflow-hidden rounded-2xl border border-[#E7E7F1] bg-white text-left transition-all duration-200 hover:-translate-y-1 hover:border-[#7050F5]/45 hover:shadow-xl hover:shadow-[#292943]/8 focus-visible:outline-none dark:border-[#232334] dark:bg-[#14141E] dark:hover:border-[#8C70FF]/55 dark:hover:shadow-black/50"
-              >
-                <div className="relative overflow-hidden bg-[#F3F2FA] dark:bg-[#1A1A26]">
-                  {!failedImages[project.id] ? (
-                    <img
-                      src={project.imageUrl}
-                      alt={`${project.title} — ${project.category}`}
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                      onError={() => handleImageError(project.id)}
-                      className="block h-auto w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
-                    />
-                  ) : (
-                    <div className="flex aspect-[4/3] w-full flex-col items-center justify-center p-6 text-center">
-                      <ImageIcon className="mb-2 h-8 w-8 text-[#7050F5]" />
-                      <span className="font-display text-sm font-semibold text-[#292943] dark:text-white">
-                        {project.title}
-                      </span>
+              <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-14">
+                {/* Left Column: Project Description & Metadata */}
+                <div className="lg:col-span-5">
+                  <div className="flex items-center gap-2.5 text-xs font-semibold tracking-wider uppercase text-[#7050F5] dark:text-[#9B82FF]">
+                    <span className="tabular-nums">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span aria-hidden="true" className="text-[#C6C6D8] dark:text-[#3A3A52]">
+                      /
+                    </span>
+                    <span>{project.category}</span>
+                  </div>
+
+                  <h3 className="font-display mt-3 text-balance text-2xl font-extrabold tracking-tight text-[#292943] sm:text-3xl dark:text-white">
+                    {project.title}
+                  </h3>
+
+                  <p className="mt-4 max-w-lg text-[15px] leading-[1.75] text-[#54546E] sm:text-base dark:text-[#B4B4C9]">
+                    {project.description}
+                  </p>
+
+                  {project.tools && (
+                    <div className="mt-6 border-t border-[#EFEFF6] pt-4 dark:border-[#1E1E2D]">
+                      <p className="text-xs font-medium text-[#7A7A94] dark:text-[#8E8EA6]">
+                        Tools Used
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-[#292943] dark:text-[#E6E6F2]">
+                        {project.tools}
+                      </p>
                     </div>
                   )}
 
-                  {/* Subtle Hover Expand Affordance */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/45 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                  >
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/95 text-[#292943] shadow-md dark:bg-[#14141E]/95 dark:text-white">
-                      <Expand className="h-4 w-4" />
-                    </span>
+                  <div className="mt-6">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedIndex(index)}
+                      className="inline-flex min-h-[42px] items-center gap-2 rounded-xl border border-[#E2E2EE] bg-white px-4 py-2 text-sm font-semibold text-[#292943] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#7050F5]/50 hover:text-[#7050F5] dark:border-[#29293D] dark:bg-[#14141E] dark:text-white dark:hover:border-[#8C70FF]/60 dark:hover:text-[#9B82FF]"
+                    >
+                      <Expand className="h-4 w-4 text-[#7050F5] dark:text-[#9B82FF]" aria-hidden="true" />
+                      Preview Full Artwork
+                    </button>
                   </div>
                 </div>
 
-                {/* Unboxed Clean Caption & Artwork Explanation */}
-                <div className="px-5 py-4">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="font-display text-base font-bold tracking-tight text-[#292943] transition-colors group-hover:text-[#7050F5] dark:text-white dark:group-hover:text-[#9B82FF]">
-                      {project.title}
-                    </h3>
-                    <span className="tabular-nums text-xs font-medium text-[#7B7B94] dark:text-[#8E8EA6]">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs font-semibold text-[#7050F5] dark:text-[#9B82FF]">
-                    {project.category}
-                  </p>
-                  <p className="mt-2 text-xs leading-relaxed text-[#5C5C77] dark:text-[#A4A4BC]">
-                    {project.description}
-                  </p>
+                {/* Right Column: Large Prominent Poster Showcase */}
+                <div className="lg:col-span-7">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIndex(index)}
+                    aria-label={`View ${project.title} in full preview`}
+                    className="group relative block w-full max-w-[580px] overflow-hidden rounded-2xl border border-[#E7E7F1] bg-[#F6F6FA] text-left shadow-lg shadow-[#292943]/6 transition-all duration-300 hover:-translate-y-1 hover:border-[#7050F5]/45 hover:shadow-xl hover:shadow-[#7050F5]/10 focus-visible:outline-none lg:ml-auto dark:border-[#232334] dark:bg-[#14141E] dark:shadow-black/45 dark:hover:border-[#8C70FF]/55"
+                  >
+                    {!failedImages[project.id] ? (
+                      <img
+                        src={project.imageUrl}
+                        alt={`${project.title} — ${project.category}`}
+                        referrerPolicy="no-referrer"
+                        loading="lazy"
+                        onError={() => handleImageError(project.id)}
+                        className="block h-auto w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
+                      />
+                    ) : (
+                      <div className="flex aspect-[4/3] w-full flex-col items-center justify-center p-8 text-center">
+                        <ImageIcon className="mb-2 h-10 w-10 text-[#7050F5]" />
+                        <span className="font-display text-base font-semibold text-[#292943] dark:text-white">
+                          {project.title}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Subtle Hover Expand Affordance */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/40 via-transparent to-transparent p-5 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                    >
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 text-[#292943] shadow-md dark:bg-[#14141E]/95 dark:text-white">
+                        <Expand className="h-4 w-4" />
+                      </span>
+                    </div>
+                  </button>
                 </div>
-              </button>
+              </div>
             </motion.article>
           ))}
         </div>
